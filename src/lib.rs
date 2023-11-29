@@ -1,10 +1,10 @@
-mod school {
+pub mod school {
     use std::fmt;
     use rand::Rng;
 
     /// Represents grades for different subjects.
     #[derive(Clone, Copy, PartialEq, PartialOrd, Debug)]
-    struct Grades {
+    pub struct Grades {
         math: u8,
         literature: u8,
         science: u8,
@@ -19,7 +19,7 @@ mod school {
 
     /// Represents a student with an ID, name, age, and grades.
     #[derive(Clone, PartialEq, PartialOrd, Debug)]
-    struct Student {
+    pub struct Student {
         id: u16,
         name: String,
         age: u8,
@@ -28,14 +28,14 @@ mod school {
 
     /// Represents a class with a name and a list of students.
     #[derive(Clone, PartialEq, PartialOrd)]
-    struct Class {
+    pub struct Class {
         name: String,
         students: Vec<Student>
     }
 
     /// Represents a school with a name, a number of students, and a list of classes.
     #[derive(Clone, PartialEq, PartialOrd, Debug)]
-    struct School {
+    pub struct School {
         name: String,
         students: u16,
         classes: Vec<Class>
@@ -59,7 +59,7 @@ mod school {
         /// # Returns
         ///
         /// A new `Grades` instance with the provided grades.
-        fn new(math: u8,
+        pub fn new(math: u8,
             literature: u8,
             science: u8,
             history: u8,
@@ -88,7 +88,7 @@ mod school {
         /// # Returns
         ///
         /// Randomly generated `Grades`.
-        fn gen() -> Grades {
+        pub fn gen() -> Grades {
             let mut rng = rand::thread_rng();
             Grades::new(
                 rng.gen_range(1..100),
@@ -117,7 +117,7 @@ mod school {
         /// # Returns
         ///
         /// A new `Student` instance with the provided information.
-        fn new(id: u16, name: String, age: u8, grades: &Grades) -> Self {
+        pub fn new(id: u16, name: String, age: u8, grades: &Grades) -> Self {
             Student {
                 id: id,
                 name: name,
@@ -138,7 +138,7 @@ mod school {
         /// # Returns
         ///
         /// A new `Class` instance with the provided information.
-        fn new(
+        pub fn new(
             name: String,
             students: Vec<Student>
         ) -> Class {
@@ -153,7 +153,7 @@ mod school {
         /// # Returns
         ///
         /// The average grades of the class.
-        fn get_average(&self) -> f32 {
+        pub fn get_average(&self) -> f32 {
             if self.students.is_empty() {
                 return 0.0;
             }
@@ -169,7 +169,7 @@ mod school {
         /// # Arguments
         ///
         /// * `student` - The student to add to the class.
-        fn add_student(&mut self, student: &Student) {
+        pub fn add_student(&mut self, student: &Student) {
             self.students.push(student.clone());
         }
     }
@@ -195,7 +195,7 @@ mod school {
         /// # Returns
         ///
         /// A new `School` instance with the provided information.
-        fn new(
+        pub fn new(
             name: String,
             classes: Vec<Class>
         ) -> School {
@@ -211,7 +211,7 @@ mod school {
         /// # Returns
         ///
         /// The average grades of the school.
-        fn average_grades(&self) -> f32 {
+        pub fn average_grades(&self) -> f32 {
             if self.classes.is_empty() {
                 return 0.0;
             }
@@ -227,7 +227,7 @@ mod school {
         /// # Arguments
         ///
         /// * `class` - The class to add to the school.
-        fn add_class(&mut self, class: &Class) {
+        pub fn add_class(&mut self, class: &Class) {
             self.classes.push(class.clone());
         }
 
@@ -236,7 +236,7 @@ mod school {
         /// # Returns
         ///
         /// The class with the best average grades.
-        fn get_best(&self) -> Class {
+        pub fn get_best(&self) -> Class {
             let mut best: Class = Class::new(String::from(""), vec![]);
             for class in self.classes.clone() {
                 if class.get_average() > best.get_average() {
