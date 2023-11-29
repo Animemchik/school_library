@@ -2,8 +2,15 @@
 name = "school_library"
 version = "1.0.0"
 edition = "2021"
+description = "This Rust library provides structures to manage school-related data, including students, classes, and schools."
+license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+name = "school_library"
+path = "src/lib.rs"
+
 
 [dependencies]
 rand = "0.8"
