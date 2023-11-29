@@ -1,6 +1,7 @@
 use std::fmt;
 use rand::Rng;
 
+/// Represents grades for different subjects.
 #[derive(Clone, Copy, PartialEq, PartialOrd, Debug)]
 struct Grades {
     math: u8,
@@ -15,6 +16,7 @@ struct Grades {
     average: f32
 }
 
+/// Represents a student with an ID, name, age, and grades.
 #[derive(Clone, PartialEq, PartialOrd, Debug)]
 struct Student {
     id: u16,
@@ -23,12 +25,14 @@ struct Student {
     grades: Grades
 }
 
+/// Represents a class with a name and a list of students.
 #[derive(Clone, PartialEq, PartialOrd)]
 struct Class {
     name: String,
     students: Vec<Student>
 }
 
+/// Represents a school with a name, a number of students, and a list of classes.
 #[derive(Clone, PartialEq, PartialOrd, Debug)]
 struct School {
     name: String,
@@ -37,6 +41,23 @@ struct School {
 }
 
 impl Grades {
+    /// Creates a new `Grades` instance with given subject grades.
+    ///
+    /// # Arguments
+    ///
+    /// * `math` - The grade for mathematics.
+    /// * `literature` - The grade for literature.
+    /// * `science` - The grade for science.
+    /// * `history` - The grade for history.
+    /// * `physical_education` - The grade for physical education.
+    /// * `arts` - The grade for arts.
+    /// * `music` - The grade for music.
+    /// * `computer_science` - The grade for computer science.
+    /// * `foreign_language` - The grade for foreign language.
+    ///
+    /// # Returns
+    ///
+    /// A new `Grades` instance with the provided grades.
     fn new(math: u8,
         literature: u8,
         science: u8,
@@ -61,6 +82,11 @@ impl Grades {
         }
     }
 
+    /// Generates random grades.
+    ///
+    /// # Returns
+    ///
+    /// Randomly generated `Grades`.
     fn gen() -> Grades {
         let mut rng = rand::thread_rng();
         Grades::new(
@@ -78,6 +104,18 @@ impl Grades {
 }
 
 impl Student {
+    /// Creates a new `Student` instance.
+    ///
+    /// # Arguments
+    ///
+    /// * `id` - The student's ID.
+    /// * `name` - The student's name.
+    /// * `age` - The student's age.
+    /// * `grades` - The student's grades.
+    ///
+    /// # Returns
+    ///
+    /// A new `Student` instance with the provided information.
     fn new(id: u16, name: String, age: u8, grades: &Grades) -> Self {
         Student {
             id: id,
@@ -89,6 +127,16 @@ impl Student {
 }
 
 impl Class {
+    /// Creates a new `Class` instance.
+    ///
+    /// # Arguments
+    ///
+    /// * `name` - The name of the class.
+    /// * `students` - The list of students in the class.
+    ///
+    /// # Returns
+    ///
+    /// A new `Class` instance with the provided information.
     fn new(
         name: String,
         students: Vec<Student>
@@ -99,6 +147,11 @@ impl Class {
         }
     }
     
+    /// Calculates the average grades for the class.
+    ///
+    /// # Returns
+    ///
+    /// The average grades of the class.
     fn get_average(&self) -> f32 {
         if self.students.is_empty() {
             return 0.0;
@@ -110,12 +163,18 @@ impl Class {
         average / (self.students.len() as f32)
     }
 
+    /// Adds a student to the class.
+    ///
+    /// # Arguments
+    ///
+    /// * `student` - The student to add to the class.
     fn add_student(&mut self, student: &Student) {
         self.students.push(student.clone());
     }
 }
 
 impl fmt::Debug for Class {
+    /// Formats the `Class` for debugging.
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         writeln!(f, "Class {}:", self.name)?;
         writeln!(f, "    Average: {}", self.get_average())?;
@@ -125,6 +184,16 @@ impl fmt::Debug for Class {
 }
 
 impl School {
+    /// Creates a new `School` instance.
+    ///
+    /// # Arguments
+    ///
+    /// * `name` - The name of the school.
+    /// * `classes` - The list of classes in the school.
+    ///
+    /// # Returns
+    ///
+    /// A new `School` instance with the provided information.
     fn new(
         name: String,
         classes: Vec<Class>
@@ -136,6 +205,11 @@ impl School {
         }
     }
 
+    /// Calculates the average grades for the entire school.
+    ///
+    /// # Returns
+    ///
+    /// The average grades of the school.
     fn average_grades(&self) -> f32 {
         if self.classes.is_empty() {
             return 0.0;
@@ -147,10 +221,20 @@ impl School {
         average / (self.classes.len() as f32)
     }
 
+    /// Adds a class to the school.
+    ///
+    /// # Arguments
+    ///
+    /// * `class` - The class to add to the school.
     fn add_class(&mut self, class: &Class) {
         self.classes.push(class.clone());
     }
 
+    /// Finds the class with the best average grades in the school.
+    ///
+    /// # Returns
+    ///
+    /// The class with the best average grades.
     fn get_best(&self) -> Class {
         let mut best: Class = Class::new(String::from(""), vec![]);
         for class in self.classes.clone() {
@@ -343,29 +427,5 @@ mod tests {
         school.add_class(&class2);
 
         assert_eq!(school.get_best().name, ""); // Replace with the expected name
-    }
-}
-
-fn main() {
-    let mut rng = rand::thread_rng();
-    let mut school: School = School::new(String::from("Школа №666"), vec![]);
-
-    for i in 1..rng.gen_range(2..13) {
-        let mut class: Class = Class::new(format!("{i}a"), vec![]);
-        for _ in 1..rng.gen_range(2..50) {
-            let student: Student = Student::new(school.students, String::from("dasd"), rng.gen_range(6..19), &Grades::gen());
-            class.add_student(&student);
-            school.students += 1;
-        }
-        school.add_class(&class);
-    }
-
-    println!("School: {}", school.name);
-    println!("Average: {}", school.average_grades());
-    println!("{:?}", school.get_best());
-    println!("");
-    for class in school.classes {
-        println!("{:?}", class);
-        println!();
     }
 }
