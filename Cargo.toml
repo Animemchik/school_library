@@ -1,6 +1,6 @@
 [package]
 name = "school_library"
-version = "1.0.0"
+version = "1.0.1"
 edition = "2021"
 description = "This Rust library provides structures to manage school-related data, including students, classes, and schools."
 license = "MIT"
