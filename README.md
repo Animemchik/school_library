@@ -21,8 +21,6 @@ Then, in your Rust code:
 
 ```rust
 use school_library::{School, Class, Student, Grades};
-
-// Example code here...
 ```
 
 ### Grades
